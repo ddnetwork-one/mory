@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MORY | Modern Matcha Culture</title>
+    
+    <!-- Fonts: Inter / System -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES --- */
+        :root {
+            --bg-main: #fbfaf7;
+            --white: #ffffff;
+            --text-color: #111111;
+            --text-muted: #6b6b6b;
+            --accent-color: #4a6b36;
+            --border-color: rgba(0,0,0,0.05);
+        }
+
+        /* --- RESET & BASE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-main);
+            color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { width: 100%; display: block; height: auto; }
+
+        /* --- IMPROVED SEARCH OVERLAY --- */
+        .search-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.98); /* Clean white background */
+            backdrop-filter: blur(10px);
+            z-index: 2000; /* Above everything */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: scale(0.95);
+        }
+
+        .search-overlay.active {
+            opacity:1;
+            pointer-events: all;
+            transform: scale(1);
+        }
+
+        /* Large, clear input */
+        .search-input {
+            width: 90%;
+            max-width: 600px;
+            font-size: 2.5rem; /* Large font for visibility */
+            font-weight: 300;
+            border: none;
+            border-bottom: 2px solid var(--text-color);
+            padding: 1rem 0;
+            text-align: center;
+            background: transparent;
+            color: var(--text-color);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-bottom-color: var(--accent-color);
+        }
+
+        .search-input::placeholder {
+            color: #ccc;
+            font-weight: 300;
+        }
+
+        /* Close Button (Top Right) */
+        .close-search {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-color);
+            opacity: 0.5;
+            transition: opacity 0.3s, transform 0.3s;
+            background: #f0f0f0;
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-search:hover {
+            opacity: 1;
+            transform: rotate(90deg);
+            background: #e0e0e0;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 1.2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(251, 250, 247, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            transition: padding 0.3s;
+        }
+
+        .logo-container img {
+            height: 35px; width: auto; object-fit: contain;
+        }
+        
+        nav ul { display: flex; gap: 2.5rem; }
+        nav a {
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-color);
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        nav a:hover, nav a.active-link { opacity: 1; }
+        nav a.active-link { color: var(--accent-color); }
+
+        .header-icons { display: flex; gap: 1.5rem; align-items: center; }
+        .icon-btn { cursor: pointer; opacity: 0.7; transition: 0.3s; font-size: 1.1rem; }
+        .icon-btn:hover { opacity: 1; transform: scale(1.1); }
+
+        /* Mobile Menu */
+        .hamburger { display: none; cursor: pointer; z-index: 1100; font-size: 1.5rem; }
+        
+        .mobile-menu {
+            position: fixed;
+            top: 0; right: 0;
+            width: 80%;
+            height: 100vh;
+            background: var(--bg-main);
+            z-index: 1050;
+            padding: 6rem 2rem;
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+            box-shadow: -5px 0 25px rgba(0,0,0,0.05);
+        }
+        .mobile-menu.active { transform: translateX(0); }
+        
+        /* Close Button inside Sidebar */
+        .close-sidebar {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .mobile-menu ul { display: flex; flex-direction: column; gap: 2rem; }
+        .mobile-menu a { font-size: 1.5rem; font-weight: 600; color: var(--text-color); opacity: 0.2; }
+        .mobile-menu a.active, .mobile-menu a:hover { opacity: 1; }
+
+        /* --- PAGE STRUCTURE --- */
+        .page-container { padding-top: 80px; min-height: 100vh; }
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            padding-bottom: 4rem;
+        }
+        .page.active { display: block; opacity: 1; transform: translateY(0); }
+
+        /* Page Transition Curtain with Logo */
+        .page-transition {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--accent-color);
+            z-index: 5000;
+            transform: translateY(100%);
+            pointer-events: none;
+            transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .page-transition.active { transform: translateY(0); }
+        
+        /* White Logo on transition */
+        .transition-logo {
+            width: 120px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease 0.1s; /* Slight delay */
+        }
+        .page-transition.active .transition-logo {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* --- PRELOADER --- */
+        .preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-main); z-index: 10000;
+            display: flex; justify-content: center; align-items: center;
+            transition: transform 0.8s ease;
+        }
+        .preloader.hide { transform: translateY(-100%); }
+        .preloader img { height: 60px; width: auto; }
+
+        /* === HOME === */
+        .hero { text-align: center; padding: 6rem 1.5rem 4rem 1.5rem; }
+        .hero h1 { font-size: 3rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1rem; line-height: 1.1; }
+        .hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto 2rem auto; line-height: 1.6; }
+
+        /* Grid & Cards */
+        .menu-section { max-width: 1100px; margin: 0 auto 80px auto; padding: 0 24px; text-align: center; }
+        .section-header { font-size: 14px; letter-spacing: 0.12em; text-transform: lowercase; color: var(--text-muted); margin-bottom: 48px; }
+        
+        .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .card-wrapper { display: flex; flex-direction: column; gap: 1rem; transition: transform 0.3s ease; cursor: pointer; }
+        .card-wrapper:hover { transform: translateY(-5px); }
+        
+        .card-img-full {
+            width: 100%; aspect-ratio: 4 / 5; overflow: hidden;
+            background: #eee; position: relative;
+        }
+        .card-img-full img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .card-wrapper:hover .card-img-full img { transform: scale(1.05); }
+
+        .item-info { text-align: left; padding: 0 4px; }
+        .item-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.2rem; }
+        .item-price { font-size: 0.9rem; font-weight: 500; color: var(--text-muted); }
+        .item-desc { font-size: 0.8rem; color: #999; line-height: 1.4; margin-top: 0.3rem; }
+
+        /* === FILTERS === */
+        .category-nav { display: flex; justify-content: center; gap: 2rem; margin-bottom: 3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; flex-wrap: wrap;}
+        .cat-btn { background: none; border: none; font-family: inherit; font-size: 0.9rem; text-transform: lowercase; letter-spacing: 0.05em; color: var(--text-muted); cursor: pointer; padding-bottom: 5px; transition: 0.3s; }
+        .cat-btn.active, .cat-btn:hover { color: var(--text-color); border-bottom: 1px solid var(--text-color); }
+
+        /* === ABOUT & CONTACT INFO GRID === */
+        .info-grid {
+            display: grid;
+            grid-template-columns:1fr 1fr;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        .info-box h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        .info-item { margin-bottom: 1rem; font-size: 1rem; color: var(--text-muted); display: flex; align-items: center; gap: 10px; }
+        .info-item i { color: var(--accent-color); width: 20px; }
+        
+        .social-links { display: flex; gap: 1rem; margin-top: 1.5rem; }
+        .social-icon {
+            width: 45px; height: 45px; border-radius: 50%;
+            background: #eee; display: flex; align-items: center; justify-content: center;
+            color: #111; font-size: 1.2rem; transition: 0.3s;
+        }
+        .social-icon:hover { background: var(--accent-color); color: white; }
+
+        .form-group { margin-bottom: 1.5rem; }
+        .form-input {
+            width: 100%; padding: 1rem;
+            background: var(--white); border: 1px solid var(--border-color);
+            border-radius: 8px; font-family: inherit; outline: none; transition: 0.3s;
+        }
+        .form-input:focus { border-color: var(--accent-color); }
+        .submit-btn {
+            background: var(--text-color); color: white; border: none;
+            padding: 1rem 2rem; border-radius: 50px; font-weight: 600; cursor: pointer; transition: 0.3s;
+        }
+        .submit-btn:hover { background: var(--accent-color); }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center; padding: 3rem; border-top: 1px solid var(--border-color);
+            color: var(--text-muted); font-size: 0.8rem; background: var(--bg-main);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .menu-grid { grid-template-columns: repeat(2, 1fr); }
+            .info-grid { grid-template-columns: 1fr; }
+            nav { display: none; }
+            .hamburger { display: block; }
+            .search-input { font-size: 1.8rem; }
+        }
+        
+        /* MOBILE VIEW - LIKE DESKTOP BUT SMALL */
+        @media (max-width: 480px) {
+            /* 2 Column Grid (Like desktop) instead of 1 */
+            .menu-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 10px; /* Tighter gap for mobile */
+            }
+            
+            /* Adjustments for smaller cards */
+            .item-title { font-size: 0.85rem; }
+            .item-price { font-size: 0.8rem; }
+            .item-desc { font-size: 0.7rem; line-height: 1.2; }
+            
+            /* Container padding */
+            .menu-section { padding: 0 1rem; } /* Less padding to fit grid */
+
+            /* Hero adjustments */
+            .hero h1 { font-size: 2.2rem; }
+            
+            /* Search */
+            .close-search { width: 40px; height: 40px; top: 1rem; right: 1rem; font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/MORY%20LOGO-green.png" alt="Mory Logo">
+    </div>
+
+    <!-- IMPROVED Search Overlay (Full Screen) -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="close-search" onclick="toggleSearch()">
+            <i class="fas fa-times"></i>
+        </div>
+        <input type="text" class="search-input" id="searchInput" placeholder="Search menu..." autocomplete="off">
+    </div>
+
+    <!-- Page Transition with White Logo -->
+    <div class="page-transition" id="pageTransition">
+        <img src="https://i.ibb.co/20wnRvgq/MORY-LOGO-white.png" class="transition-logo" alt="MORY">
+    </div>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo-container" onclick="navigateTo('home', event)">
+            <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/MORY%20LOGO-green.png" alt="MORY">
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav>
+            <ul>
+                <li><a href="#" class="nav-link active-link" data-target="home" onclick="navigateTo('home', event)">Home</a></li>
+                <li><a href="#" class="nav-link" data-target="menu" onclick="navigateTo('menu', event)">Menu</a></li>
+                <li><a href="#" class="nav-link" data-target="about" onclick="navigateTo('about', event)">About</a></li>
+                <li><a href="#" class="nav-link" data-target="contact" onclick="navigateTo('contact', event)">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Icons -->
+        <div class="header-icons">
+            <div class="icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></div>
+            <div class="icon-btn" onclick="alert('Cart')"><i class="fas fa-shopping-bag"></i></div>
+            <div class="hamburger" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <!-- Close Button X -->
+        <div class="close-sidebar" onclick="toggleMobileMenu()">
+            <i class="fas fa-times"></i>
+        </div>
+
+        <ul>
+            <li><a href="#" onclick="navigateTo('home', event); toggleMobileMenu()">Home</a></li>
+            <li><a href="#" onclick="navigateTo('menu', event); toggleMobileMenu()">Menu</a></li>
+            <li><a href="#" onclick="navigateTo('about', event); toggleMobileMenu()">About</a></li>
+            <li><a href="#" onclick="navigateTo('contact', event); toggleMobileMenu()">Contact</a></li>
+        </ul>
+        <div style="margin-top: 3rem; border-top: 1px solid #ddd; padding-top: 1rem;">
+            <div class="info-item"><i class="fas fa-map-marker-alt"></i> Zeta Fasa 1, UiTM Tapah</div>
+            <div class="info-item"><i class="fas fa-clock"></i> Daily: 6 PM - 11 PM</div>
+        </div>
+    </div>
+
+    <div class="page-container">
+        
+        <!-- === HOME PAGE === -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <h1>Energize.<br>Calm.<br>Elevate.</h1>
+                <p>Mory is a modern matcha brand that blends tradition with lifestyle.</p>
+                <button onclick="navigateTo('menu', event)" class="submit-btn">View Menu</button>
+            </div>
+
+            <section class="menu-section">
+                <div class="section-header">new & seasonal</div>
+                <div class="menu-grid">
+                    <!-- Highlight Items for Home -->
+                    <div class="card-wrapper">
+                        <div class="card-img-full"><img src="https://i.ibb.co/zHjDJB8F/Matcho.jpg" alt="Matcho"></div>
+                        <div class="item-info">
+                            <div class="item-title">Matcho</div>
+                            <div class="item-price">RM 13.00</div>
+                        </div>
+                    </div>
+                    <div class="card-wrapper">
+                        <div class="card-img-full"><img src="https://i.ibb.co/CKKSCYJ0/Matcha-Taro.jpg" alt="Taro Matcha"></div>
+                        <div class="item-info">
+                            <div class="item-title">Taro Matcha</div>
+                            <div class="item-price">RM 13.00</div>
+                        </div>
+                    </div>
+                    <div class="card-wrapper">
+                        <div class="card-img-full"><img src="https://i.ibb.co/N6YHfYxf/BISCOFF-MOFFLE.jpg" alt="Biscoff Moffle"></div>
+                        <div class="item-info">
+                            <div class="item-title">Biscoff Moffle</div>
+                            <div class="item-price">RM 10.00</div>
+                        </div>
+                    </div>
+                    <div class="card-wrapper">
+                        <div class="card-img-full"><img src="https://i.ibb.co/DHPnpMRz/Matcha-Latte.jpg" alt="Matcha Latte"></div>
+                        <div class="item-info">
+                            <div class="item-title">Matcha Latte</div>
+                            <div class="item-price">RM 10.00</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- === MENU PAGE === -->
+        <section id="menu" class="page">
+            <div class="menu-section">
+                <div class="section-header" style="font-size: 24px; margin-bottom: 20px;">Menu</div>
+                <div class="category-nav">
+                    <button class="cat-btn active" onclick="filterMenu('all', this)">all</button>
+                    <button class="cat-btn" onclick="filterMenu('moffle', this)">moffle series</button>
+                    <button class="cat-btn" onclick="filterMenu('matcha', this)">matcha series</button>
+                    <button class="cat-btn" onclick="filterMenu('refresher', this)">refresher series</button>
+                </div>
+
+                <div class="menu-grid">
+                    
+                    <!-- MOFFLE SERIES -->
+                    <div class="grid-item" data-cat="moffle">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/N2j6qT48/CLASSIC-MOFFLE.jpg" alt="Classic Moffle"></div>
+                            <div class="item-info">
+                                <div class="item-title">Classic Moffle</div>
+                                <div class="item-price">RM 8.00</div>
+                                <div class="item-desc">Crispy on the outside, fluffy on the inside.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="moffle">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/N6YHfYxf/BISCOFF-MOFFLE.jpg" alt="Biscoff Moffle"></div>
+                            <div class="item-info">
+                                <div class="item-title">Biscoff Moffle</div>
+                                <div class="item-price">RM 10.00</div>
+                                <div class="item-desc">Golden moffle topped with rich, caramelised Biscoff crumble.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="moffle">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/k2555Vth/CHOCOLATE-MOFFLE.jpg" alt="Chocolate Moffle"></div>
+                            <div class="item-info">
+                                <div class="item-title">Chocolate Moffle</div>
+                                <div class="item-price">RM 8.00</div>
+                                <div class="item-desc">Freshly baked moffle drizzled with smooth chocolate sauce.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MATCHA SERIES -->
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/DHPnpMRz/Matcha-Latte.jpg" alt="Matcha Latte"></div>
+                            <div class="item-info">
+                                <div class="item-title">Matcha Latte</div>
+                                <div class="item-price">RM 10.00</div>
+                                <div class="item-desc">Smooth, earthy matcha blended with creamy milk.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/8DLhMzbV/STRAWBERRY-MATCHA.jpg" alt="Strawberry Matcha"></div>
+                            <div class="item-info">
+                                <div class="item-title">Strawberry Matcha</div>
+                                <div class="item-price">RM 12.00</div>
+                                <div class="item-desc">A refreshing mix of vibrant strawberry and premium matcha.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/CKKSCYJ0/Matcha-Taro.jpg" alt="Taro Matcha"></div>
+                            <div class="item-info">
+                                <div class="item-title">Taro Matcha</div>
+                                <div class="item-price">RM 13.00</div>
+                                <div class="item-desc">Creamy taro paired with aromatic matcha.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/zHjDJB8F/Matcho.jpg" alt="Matcho"></div>
+                            <div class="item-info">
+                                <div class="item-title">Matcho</div>
+                                <div class="item-price">RM 13.00</div>
+                                <div class="item-desc">Where matcha meets chocolate. Rich cocoa undertones.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/b8Hg6sp/MANGO-MATCHA.jpg" alt="Mango Matcha"></div>
+                            <div class="item-info">
+                                <div class="item-title">Mango Matcha</div>
+                                <div class="item-price">RM 14.00</div>
+                                <div class="item-desc">Tropical mango sweetness balanced with earthy matcha.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/SDtWRm9f/BLUEBERRY-MATCHA.jpg" alt="Blueberry Matcha"></div>
+                            <div class="item-info">
+                                <div class="item-title">Blueberry Matcha</div>
+                                <div class="item-price">RM 14.00</div>
+                                <div class="item-desc">Juicy blueberry notes combined with smooth matcha.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- REFRESHER SERIES (COMBINED) -->
+                    <div class="grid-item" data-cat="refresher">
+                        <div class="card-wrapper">
+                            <div class="card-img-full">
+                                <img src="https://i.ibb.co/m56Mrssy/PHOTO-2026-01-29-15-02-04.jpg" alt="Refresher Series">
+                            </div>
+                            <div class="item-info">
+                                <div class="item-title">Refresher Series</div>
+                                <div class="item-price">RM 8.00</div>
+                                <div class="item-desc">Available in Mango & Strawberry.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- === ABOUT PAGE === -->
+        <section id="about" class="page">
+            <div class="menu-section">
+                <div class="section-header" style="font-size: 24px;">about mory</div>
+                <p style="max-width: 600px; margin: 0 auto 3rem auto; color: var(--text-muted); line-height: 1.7;">
+                    Mory is a modern matcha brand that blends tradition with lifestyle. We craft rich, vibrant matcha made to energize, calm, and elevate every sip. Pure, versatile, and rooted in mindful living.
+                </p>
+
+                <!-- Info Grid -->
+                <div class="info-grid">
+                    <div class="info-box">
+                        <h3>Our Location</h3>
+                        <div class="info-item"><i class="fas fa-map-marker-alt"></i> Zeta Fasa 1 , UiTM Cawangan Perak Kampus Tapah</div>
+                        <div style="margin-top:1rem; width:100%; height:150px; background:#eee; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#999;">
+                            <i class="fas fa-map"></i> Map Placeholder
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <h3>Opening Hours</h3>
+                        <div class="info-item"><i class="fas fa-clock"></i> Open Daily</div>
+                        <div class="info-item" style="margin-left: 35px; font-weight:600; color:var(--accent-color)">6:00 PM - 11:00 PM</div>
+                        <div class="info-item" style="margin-top:1rem;"><i class="fas fa-phone"></i> +60 12-345 6789</div>
+                        <div class="info-item"><i class="fas fa-envelope"></i> hello@mory-matcha.com</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- === CONTACT PAGE === -->
+        <section id="contact" class="page">
+            <div class="menu-section">
+                <div class="section-header" style="font-size: 24px;">contact us</div>
+                
+                <div class="info-grid">
+                    <!-- Form -->
+                    <div>
+                        <h3 style="margin-bottom:1.5rem">Send a Message</h3>
+                        <form onsubmit="event.preventDefault(); alert('Message sent!');">
+                            <div class="form-group"><input type="text" class="form-input" placeholder="Name" required></div>
+                            <div class="form-group"><input type="email" class="form-input" placeholder="Email" required></div>
+                            <div class="form-group"><input type="text" class="form-input" placeholder="Subject" required></div>
+                            <div class="form-group"><textarea class="form-input" rows="4" placeholder="Message" required></textarea></div>
+                            <button type="submit" class="submit-btn">Send Message</button>
+                        </form>
+                    </div>
+
+                    <!-- Details -->
+                    <div>
+                        <h3 style="margin-bottom:1.5rem">Get in Touch</h3>
+                        <div class="info-item" style="font-size:1.1rem; margin-bottom:2rem">
+                            Have questions about our catering or wholesale options?
+                        </div>
+                        <div class="info-item"><i class="fas fa-map-marker-alt"></i> Zeta Fasa 1, UiTM Tapah</div>
+                        <div class="info-item"><i class="fas fa-clock"></i> Daily: 6:00 PM - 11:00 PM</div>
+                        <div class="info-item"><i class="fas fa-phone"></i> +60 12-345 6789</div>
+                        <div class="info-item"><i class="fas fa-envelope"></i> hello@mory-matcha.com</div>
+
+                        <h3 style="margin-top:2rem; margin-bottom:1rem">Follow Us</h3>
+                        <div class="social-links">
+                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 MORY. All Rights Reserved.Led by DDNetwork.</p>
+    </footer>
+
+    <script>
+        // --- 1. Preloader ---
+        window.addEventListener('load', () => {
+            setTimeout(() => document.getElementById('preloader').classList.add('hide'), 1000);
+        });
+
+        // --- 2. Navigation Logic ---
+        function navigateTo(pageId, event) {
+            if(event) event.preventDefault();
+            const overlay = document.getElementById('pageTransition');
+            const targetPage = document.getElementById(pageId);
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            overlay.classList.add('active');
+
+            setTimeout(() => {
+                document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+                if(targetPage) {
+                    targetPage.classList.add('active');
+                    window.scrollTo(0, 0);
+                }
+                navLinks.forEach(link => {
+                    link.classList.remove('active-link');
+                    if(link.dataset.target === pageId) link.classList.add('active-link');
+                });
+                setTimeout(() => overlay.classList.remove('active'), 100);
+            }, 600);
+        }
+
+        // --- 3. Mobile Menu ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+            // Change hamburger icon
+            const icon = document.querySelector('.hamburger i');
+            if(menu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        // --- 4. IMPROVED Search Toggle ---
+        function toggleSearch() {
+            const searchOverlay = document.getElementById('searchOverlay');
+            const input = document.getElementById('searchInput');
+            const isActive = searchOverlay.classList.contains('active');
+
+            if (!isActive) {
+                // Open Search
+                searchOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Stop background scrolling
+                setTimeout(() => {
+                    input.focus();
+                }, 100); // Focus after transition starts
+            } else {
+                // Close Search
+                searchOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto'; // Restore scrolling
+                input.blur(); // Remove focus
+            }
+        }
+
+        // --- 5. Menu Filtering ---
+        function filterMenu(category, btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const items = document.querySelectorAll('.grid-item');
+            items.forEach(item => {
+                item.style.display = (category === 'all' || item.dataset.cat === category) ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
