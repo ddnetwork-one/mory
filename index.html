@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MORY.</title>
+    <title>MORY</title>
+    
+    <!-- FAVICON CODE HERE -->
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/MORY%20ICON-green.png">
     
     <!-- Fonts: Inter / System -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,6 +25,9 @@
             --text-muted: #6b6b6b;
             --accent-color: #4a6b36;
             --border-color: rgba(0,0,0,0.05);
+            --wa-green: #25D366;
+            --danger-color: #e74c3c;
+            --waze-color: #33CCFF;
         }
 
         /* --- RESET & BASE --- */
@@ -44,13 +50,13 @@
         ul { list-style: none; }
         img { width: 100%; display: block; height: auto; }
 
-        /* --- IMPROVED SEARCH OVERLAY --- */
+        /* --- SEARCH OVERLAY --- */
         .search-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.98); /* Clean white background */
+            background: rgba(255, 255, 255, 0.98); 
             backdrop-filter: blur(10px);
-            z-index: 2000; /* Above everything */
+            z-index: 2000; 
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -62,16 +68,15 @@
         }
 
         .search-overlay.active {
-            opacity:1;
+            opacity: 1;
             pointer-events: all;
             transform: scale(1);
         }
 
-        /* Large, clear input */
         .search-input {
             width: 90%;
             max-width: 600px;
-            font-size: 2.5rem; /* Large font for visibility */
+            font-size: 2.5rem; 
             font-weight: 300;
             border: none;
             border-bottom: 2px solid var(--text-color);
@@ -83,16 +88,9 @@
             transition: border-color 0.3s;
         }
 
-        .search-input:focus {
-            border-bottom-color: var(--accent-color);
-        }
+        .search-input:focus { border-bottom-color: var(--accent-color); }
+        .search-input::placeholder { color: #ccc; font-weight: 300; }
 
-        .search-input::placeholder {
-            color: #ccc;
-            font-weight: 300;
-        }
-
-        /* Close Button (Top Right) */
         .close-search {
             position: absolute;
             top: 2rem;
@@ -109,12 +107,7 @@
             align-items: center;
             justify-content: center;
         }
-
-        .close-search:hover {
-            opacity: 1;
-            transform: rotate(90deg);
-            background: #e0e0e0;
-        }
+        .close-search:hover { opacity: 1; transform: rotate(90deg); background: #e0e0e0; }
 
         /* --- NAVIGATION --- */
         header {
@@ -133,6 +126,7 @@
 
         .logo-container img {
             height: 35px; width: auto; object-fit: contain;
+            cursor: pointer;
         }
         
         nav ul { display: flex; gap: 2.5rem; }
@@ -149,8 +143,25 @@
         nav a.active-link { color: var(--accent-color); }
 
         .header-icons { display: flex; gap: 1.5rem; align-items: center; }
-        .icon-btn { cursor: pointer; opacity: 0.7; transition: 0.3s; font-size: 1.1rem; }
+        .icon-btn { cursor: pointer; opacity: 0.7; transition: 0.3s; font-size: 1.1rem; position: relative; }
         .icon-btn:hover { opacity: 1; transform: scale(1.1); }
+
+        /* Cart Badge */
+        .cart-badge {
+            position: absolute;
+            top: -5px; right: -8px;
+            background: var(--accent-color);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: none; 
+        }
+        .cart-badge.visible { display: flex; }
 
         /* Mobile Menu */
         .hamburger { display: none; cursor: pointer; z-index: 1100; font-size: 1.5rem; }
@@ -169,7 +180,6 @@
         }
         .mobile-menu.active { transform: translateX(0); }
         
-        /* Close Button inside Sidebar */
         .close-sidebar {
             position: absolute;
             top: 2rem;
@@ -194,7 +204,7 @@
         }
         .page.active { display: block; opacity: 1; transform: translateY(0); }
 
-        /* Page Transition Curtain with Logo */
+        /* Page Transition */
         .page-transition {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -209,17 +219,13 @@
         }
         .page-transition.active { transform: translateY(0); }
         
-        /* White Logo on transition */
         .transition-logo {
             width: 120px;
             opacity: 0;
             transform: scale(0.8);
-            transition: all 0.3s ease 0.1s; /* Slight delay */
+            transition: all 0.3s ease 0.1s; 
         }
-        .page-transition.active .transition-logo {
-            opacity: 1;
-            transform: scale(1);
-        }
+        .page-transition.active .transition-logo { opacity: 1; transform: scale(1); }
 
         /* --- PRELOADER --- */
         .preloader {
@@ -231,17 +237,88 @@
         .preloader.hide { transform: translateY(-100%); }
         .preloader img { height: 60px; width: auto; }
 
-        /* === HOME === */
-        .hero { text-align: center; padding: 6rem 1.5rem 4rem 1.5rem; }
+        /* === HERO === */
+        .hero {
+            text-align: center;
+            padding: 6rem 1.5rem 5rem 1.5rem;
+            position: relative;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-bg-slider {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide.active { opacity: 1; }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 3rem;
+            border-radius: 12px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            margin-bottom: 5rem;
+        }
+
         .hero h1 { font-size: 3rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1rem; line-height: 1.1; }
         .hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto 2rem auto; line-height: 1.6; }
 
-        /* Grid & Cards */
+        .dots-container {
+            position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; gap: 15px;
+        }
+
+        .dot {
+            width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.5); cursor: pointer;
+            transition: all 0.3s ease; border: 1px solid rgba(0,0,0,0.1);
+        }
+        .dot:hover { transform: scale(1.2); background-color: rgba(255, 255, 255, 0.8); }
+        .dot.active { background-color: var(--text-color); transform: scale(1.3); }
+
+        /* === MENU SECTION & HOME HEADER UPDATE === */
         .menu-section { max-width: 1100px; margin: 0 auto 80px auto; padding: 0 24px; text-align: center; }
-        .section-header { font-size: 14px; letter-spacing: 0.12em; text-transform: lowercase; color: var(--text-muted); margin-bottom: 48px; }
         
+        .section-header { font-size: 14px; letter-spacing: 0.12em; text-transform: lowercase; color: var(--text-muted); margin-bottom: 48px; }
+
+        /* SPECIFIC UPDATE: Make "New & Seasonal" on Home page Bold, Bigger, and Spaced */
+        #home .section-header {
+            font-size: 2.5rem; /* Bigger size */
+            font-weight: 800; /* Bold/Extra Bold */
+            text-transform: uppercase; /* Uppercase for impact */
+            letter-spacing: 2px;
+            color: var(--text-color); /* Darker for visibility */
+            margin-top: 6rem; /* Moved "below more" - increased gap from slideshow */
+            margin-bottom: 3rem; /* Adjusted bottom spacing */
+        }
+
         .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-        .card-wrapper { display: flex; flex-direction: column; gap: 1rem; transition: transform 0.3s ease; cursor: pointer; }
+        
+        .card-wrapper { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 1rem; 
+            transition: transform 0.3s ease; 
+        } 
+        
         .card-wrapper:hover { transform: translateY(-5px); }
         
         .card-img-full {
@@ -256,20 +333,106 @@
         .item-price { font-size: 0.9rem; font-weight: 500; color: var(--text-muted); }
         .item-desc { font-size: 0.8rem; color: #999; line-height: 1.4; margin-top: 0.3rem; }
 
-        /* === FILTERS === */
+        .add-to-cart-btn {
+            background: var(--bg-main);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 20px;
+            margin-top: 0.5rem;
+            width: 100%;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 10;
+            position: relative;
+        }
+        .add-to-cart-btn:hover { background: var(--text-color); color: white; border-color: var(--text-color); }
+
         .category-nav { display: flex; justify-content: center; gap: 2rem; margin-bottom: 3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; flex-wrap: wrap;}
         .cat-btn { background: none; border: none; font-family: inherit; font-size: 0.9rem; text-transform: lowercase; letter-spacing: 0.05em; color: var(--text-muted); cursor: pointer; padding-bottom: 5px; transition: 0.3s; }
         .cat-btn.active, .cat-btn:hover { color: var(--text-color); border-bottom: 1px solid var(--text-color); }
 
-        /* === ABOUT & CONTACT INFO GRID === */
-        .info-grid {
-            display: grid;
-            grid-template-columns:1fr 1fr;
-            gap: 3rem;
+        /* === ORDER PAGE LAYOUT === */
+        .order-layout {
             max-width: 1000px;
             margin: 0 auto;
-            text-align: left;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr; 
+            gap: 3rem;
+            align-items: start;
         }
+
+        .order-summary-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .summary-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* ORDER ITEM ROW */
+        .order-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .order-item-info { display: flex; flex-direction: column; }
+        .order-item-name { font-weight: 500; font-size: 0.95rem; }
+        .order-item-price { font-size: 0.85rem; color: var(--text-muted); }
+
+        .order-controls { display: flex; align-items: center; gap: 0.8rem; }
+        
+        .qty-btn {
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            transition: 0.2s;
+        }
+        .qty-btn:hover { background: #f0f0f0; border-color: #ccc; }
+        .qty-num { font-size: 1rem; font-weight: 600; width: 20px; text-align: center; }
+        
+        .remove-btn { color: #ccc; cursor: pointer; transition: 0.3s; font-size: 0.9rem; }
+        .remove-btn:hover { color: var(--danger-color); }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .empty-cart-msg { text-align: center; color: var(--text-muted); padding: 2rem 0; font-style: italic; }
+
+        /* === FORM & INFO === */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
         .info-box h3 { font-size: 1.5rem; margin-bottom: 1rem; }
         .info-item { margin-bottom: 1rem; font-size: 1rem; color: var(--text-muted); display: flex; align-items: center; gap: 10px; }
         .info-item i { color: var(--accent-color); width: 20px; }
@@ -282,6 +445,42 @@
         }
         .social-icon:hover { background: var(--accent-color); color: white; }
 
+        /* Pickup Map / Address Styles */
+        .pickup-map-container {
+            background: #eef5eb;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #d1e7dd;
+        }
+        .pickup-text { font-weight: 600; color: var(--accent-color); margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .map-buttons { display: flex; gap: 1rem; }
+        .map-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.6rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: white;
+            transition: 0.3s;
+        }
+        .btn-google { background-color: #4285F4; }
+        .btn-google:hover { background-color: #3367d6; }
+        .btn-waze { background-color: var(--waze-color); }
+        .btn-waze:hover { background-color: #00aadd; }
+
+        /* Google Maps Embed for About Page */
+        .map-embed {
+            width: 100%;
+            height: 250px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+
+        /* --- FORMS --- */
         .form-group { margin-bottom: 1.5rem; }
         .form-input {
             width: 100%; padding: 1rem;
@@ -289,11 +488,135 @@
             border-radius: 8px; font-family: inherit; outline: none; transition: 0.3s;
         }
         .form-input:focus { border-color: var(--accent-color); }
-        .submit-btn {
-            background: var(--text-color); color: white; border: none;
-            padding: 1rem 2rem; border-radius: 50px; font-weight: 600; cursor: pointer; transition: 0.3s;
+
+        /* --- UPDATED DELIVERY CHOICE STYLE --- */
+        .delivery-choice-container {
+            background: #f0f0f0;
+            border-radius: 50px;
+            padding: 5px;
+            display: flex;
+            position: relative;
+            margin-bottom: 1.5rem;
         }
-        .submit-btn:hover { background: var(--accent-color); }
+
+        .radio-option { width: 50%; position: relative; z-index: 2; }
+        
+        /* Hide actual radio input */
+        .radio-option input { 
+            opacity: 0; 
+            width: 100%; 
+            height: 100%; 
+            position: absolute; 
+            top:0; left:0; 
+            cursor: pointer; 
+            z-index: 3;
+        }
+
+        /* Style Label as Button */
+        .radio-option label {
+            display: block;
+            text-align: center;
+            padding: 12px 0;
+            border-radius: 50px;
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+            position: relative; z-index: 1;
+            font-size: 0.95rem;
+        }
+
+        /* Active State */
+        .radio-option input:checked + label {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(74, 107, 54, 0.3);
+        }
+
+        /* --- Dynamic Options Area --- */
+        .delivery-options {
+            display: block; /* Always visible now */
+            background: rgba(0,0,0,0.02);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            /* Animation handled via JS toggling classes if needed, but we'll just toggle display for simplicity */
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .location-btn {
+            background: #eee; color: #333; border: none; padding: 0.5rem 1rem;
+            border-radius: 6px; font-size: 0.85rem; cursor: pointer;
+            margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem; transition: 0.3s;
+        }
+        .location-btn:hover { background: #ddd; }
+
+        .submit-btn {
+            background: var(--wa-green); color: white; border: none;
+            padding: 1rem 2rem; border-radius: 50px; font-weight: 600; cursor: pointer; transition: 0.3s;
+            width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .submit-btn:hover { background: #1ebc57; }
+        .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+        .wa-icon { font-size: 1.2rem; color: white; }
+
+        /* === MODALS === */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 3000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-box { transform: scale(1); }
+
+        .modal-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .modal-msg { color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.4; }
+        
+        .modal-actions { display: flex; gap: 1rem; justify-content: center; }
+        .modal-btn {
+            padding: 0.8rem 2rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; transition: 0.2s;
+        }
+        .btn-yes { background: var(--accent-color); color: white; }
+        .btn-yes:hover { background: var(--accent-color-dark); }
+        .btn-no { background: #eee; color: #333; }
+        .btn-no:hover { background: #ddd; }
+
+        /* Summary Text in Modal */
+        .modal-summary-text { 
+            text-align: left; 
+            background: #f9f9f9; 
+            padding: 1rem; 
+            border-radius: 8px; 
+            margin-bottom: 1.5rem; 
+            font-size: 0.9rem;
+            color: #333;
+        }
+        .modal-summary-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #ccc; padding: 0.5rem 0; }
 
         /* --- FOOTER --- */
         footer {
@@ -304,33 +627,23 @@
         /* --- RESPONSIVE --- */
         @media (max-width: 900px) {
             .menu-grid { grid-template-columns: repeat(2, 1fr); }
+            .order-layout { grid-template-columns: 1fr; gap: 2rem; }
             .info-grid { grid-template-columns: 1fr; }
             nav { display: none; }
             .hamburger { display: block; }
             .search-input { font-size: 1.8rem; }
+            #home .section-header { font-size: 2rem; margin-top: 4rem; } 
         }
         
-        /* MOBILE VIEW - LIKE DESKTOP BUT SMALL */
         @media (max-width: 480px) {
-            /* 2 Column Grid (Like desktop) instead of 1 */
-            .menu-grid { 
-                grid-template-columns: repeat(2, 1fr); 
-                gap: 10px; /* Tighter gap for mobile */
-            }
-            
-            /* Adjustments for smaller cards */
+            .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } 
             .item-title { font-size: 0.85rem; }
             .item-price { font-size: 0.8rem; }
             .item-desc { font-size: 0.7rem; line-height: 1.2; }
-            
-            /* Container padding */
-            .menu-section { padding: 0 1rem; } /* Less padding to fit grid */
-
-            /* Hero adjustments */
+            .menu-section { padding: 0 1rem; } 
             .hero h1 { font-size: 2.2rem; }
-            
-            /* Search */
             .close-search { width: 40px; height: 40px; top: 1rem; right: 1rem; font-size: 1.5rem; }
+            .radio-option label { font-size: 0.85rem; padding: 10px 0; }
         }
     </style>
 </head>
@@ -341,7 +654,7 @@
         <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/MORY%20LOGO-green.png" alt="Mory Logo">
     </div>
 
-    <!-- IMPROVED Search Overlay (Full Screen) -->
+    <!-- IMPROVED Search Overlay -->
     <div class="search-overlay" id="searchOverlay">
         <div class="close-search" onclick="toggleSearch()">
             <i class="fas fa-times"></i>
@@ -349,9 +662,50 @@
         <input type="text" class="search-input" id="searchInput" placeholder="Search menu..." autocomplete="off">
     </div>
 
-    <!-- Page Transition with White Logo -->
+    <!-- Page Transition -->
     <div class="page-transition" id="pageTransition">
         <img src="https://i.ibb.co/20wnRvgq/MORY-LOGO-white.png" class="transition-logo" alt="MORY">
+    </div>
+
+    <!-- Confirm Add Modal -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal-box">
+            <div class="modal-title">Item Already Added</div>
+            <p class="modal-msg">Do you want to add another one?</p>
+            <div class="modal-actions">
+                <button class="modal-btn btn-yes" onclick="confirmAdd(true)">Yes</button>
+                <button class="modal-btn btn-no" onclick="confirmAdd(false)">No</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Delete Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal-box">
+            <div class="modal-title" style="color: var(--danger-color)">Remove Item?</div>
+            <p class="modal-msg">Are you sure you want to remove this item from your order?</p>
+            <div class="modal-actions">
+                <button class="modal-btn btn-yes" style="background: var(--danger-color);" onclick="confirmDelete(true)">Yes, Remove</button>
+                <button class="modal-btn btn-no" onclick="confirmDelete(false)">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Confirmation Modal -->
+    <div class="modal-overlay" id="finalConfirmModal">
+        <div class="modal-box">
+            <div class="modal-title">Confirm Order</div>
+            <p class="modal-msg">Please verify your order and location before sending.</p>
+            
+            <div class="modal-summary-text" id="finalSummaryContent">
+                <!-- Content injected by JS -->
+            </div>
+
+            <div class="modal-actions">
+                <button class="modal-btn btn-yes" onclick="finalizeWhatsApp()">Confirm & Send</button>
+                <button class="modal-btn btn-no" onclick="closeModal('finalConfirmModal')">Edit</button>
+            </div>
+        </div>
     </div>
 
     <!-- Header -->
@@ -366,30 +720,33 @@
                 <li><a href="#" class="nav-link active-link" data-target="home" onclick="navigateTo('home', event)">Home</a></li>
                 <li><a href="#" class="nav-link" data-target="menu" onclick="navigateTo('menu', event)">Menu</a></li>
                 <li><a href="#" class="nav-link" data-target="about" onclick="navigateTo('about', event)">About</a></li>
-                <li><a href="#" class="nav-link" data-target="contact" onclick="navigateTo('contact', event)">Contact</a></li>
             </ul>
         </nav>
 
         <!-- Icons -->
         <div class="header-icons">
             <div class="icon-btn" onclick="toggleSearch()"><i class="fas fa-search"></i></div>
-            <div class="icon-btn" onclick="alert('Cart')"><i class="fas fa-shopping-bag"></i></div>
+            
+            <!-- Cart Button (With Badge) -->
+            <div class="icon-btn" onclick="navigateTo('order', event)">
+                <i class="fas fa-shopping-bag"></i>
+                <div class="cart-badge" id="cartBadge">0</div>
+            </div>
+            
             <div class="hamburger" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></div>
         </div>
     </header>
 
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-        <!-- Close Button X -->
         <div class="close-sidebar" onclick="toggleMobileMenu()">
             <i class="fas fa-times"></i>
         </div>
-
         <ul>
             <li><a href="#" onclick="navigateTo('home', event); toggleMobileMenu()">Home</a></li>
             <li><a href="#" onclick="navigateTo('menu', event); toggleMobileMenu()">Menu</a></li>
+            <li><a href="#" onclick="navigateTo('order', event); toggleMobileMenu()">Order</a></li>
             <li><a href="#" onclick="navigateTo('about', event); toggleMobileMenu()">About</a></li>
-            <li><a href="#" onclick="navigateTo('contact', event); toggleMobileMenu()">Contact</a></li>
         </ul>
         <div style="margin-top: 3rem; border-top: 1px solid #ddd; padding-top: 1rem;">
             <div class="info-item"><i class="fas fa-map-marker-alt"></i> Zeta Fasa 1, UiTM Tapah</div>
@@ -402,21 +759,34 @@
         <!-- === HOME PAGE === -->
         <section id="home" class="page active">
             <div class="hero">
-                <h1>Energize.<br>Calm.<br>Elevate.</h1>
-                <p>Mory is a modern matcha brand that blends tradition with lifestyle.</p>
-                <button onclick="navigateTo('menu', event)" class="submit-btn">View Menu</button>
+                <div class="hero-bg-slider">
+                    <div class="slide active" style="background-image: url('https://i.ibb.co/fzq6R9mG/background-img1.jpg');"></div>
+                    <div class="slide" style="background-image: url('https://i.ibb.co/Gvfk9HKM/background-img2.jpg');"></div>
+                </div>
+                
+                <div class="dots-container" id="dotsContainer">
+                    <!-- Dots generated by JS -->
+                </div>
+
+                <div class="hero-content">
+                    <h1>Energize.<br>Calm.<br>Elevate.</h1>
+                    <p>Mory is a modern matcha brand that blends tradition with lifestyle.</p>
+                    <button onclick="navigateTo('menu', event)" class="submit-btn" style="background:var(--text-color)">View Menu</button>
+                </div>
             </div>
 
             <section class="menu-section">
                 <div class="section-header">new & seasonal</div>
                 <div class="menu-grid">
-                    <!-- Highlight Items for Home -->
+                    <!-- Note: Wrapper no longer has onclick -->
                     <div class="card-wrapper">
                         <div class="card-img-full"><img src="https://i.ibb.co/zHjDJB8F/Matcho.jpg" alt="Matcho"></div>
                         <div class="item-info">
                             <div class="item-title">Matcho</div>
                             <div class="item-price">RM 13.00</div>
                         </div>
+                        <!-- Button has the click event -->
+                        <div class="add-to-cart-btn" onclick="initiateAdd('Matcho', 13)"><i class="fas fa-plus"></i> Add</div>
                     </div>
                     <div class="card-wrapper">
                         <div class="card-img-full"><img src="https://i.ibb.co/CKKSCYJ0/Matcha-Taro.jpg" alt="Taro Matcha"></div>
@@ -424,6 +794,7 @@
                             <div class="item-title">Taro Matcha</div>
                             <div class="item-price">RM 13.00</div>
                         </div>
+                        <div class="add-to-cart-btn" onclick="initiateAdd('Taro Matcha', 13)"><i class="fas fa-plus"></i> Add</div>
                     </div>
                     <div class="card-wrapper">
                         <div class="card-img-full"><img src="https://i.ibb.co/N6YHfYxf/BISCOFF-MOFFLE.jpg" alt="Biscoff Moffle"></div>
@@ -431,6 +802,7 @@
                             <div class="item-title">Biscoff Moffle</div>
                             <div class="item-price">RM 10.00</div>
                         </div>
+                        <div class="add-to-cart-btn" onclick="initiateAdd('Biscoff Moffle', 10)"><i class="fas fa-plus"></i> Add</div>
                     </div>
                     <div class="card-wrapper">
                         <div class="card-img-full"><img src="https://i.ibb.co/DHPnpMRz/Matcha-Latte.jpg" alt="Matcha Latte"></div>
@@ -438,6 +810,7 @@
                             <div class="item-title">Matcha Latte</div>
                             <div class="item-price">RM 10.00</div>
                         </div>
+                        <div class="add-to-cart-btn" onclick="initiateAdd('Matcha Latte', 10)"><i class="fas fa-plus"></i> Add</div>
                     </div>
                 </div>
             </section>
@@ -455,7 +828,6 @@
                 </div>
 
                 <div class="menu-grid">
-                    
                     <!-- MOFFLE SERIES -->
                     <div class="grid-item" data-cat="moffle">
                         <div class="card-wrapper">
@@ -465,6 +837,7 @@
                                 <div class="item-price">RM 8.00</div>
                                 <div class="item-desc">Crispy on the outside, fluffy on the inside.</div>
                             </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Classic Moffle', 8)"><i class="fas fa-plus"></i> Add</div>
                         </div>
                     </div>
 
@@ -476,6 +849,7 @@
                                 <div class="item-price">RM 10.00</div>
                                 <div class="item-desc">Golden moffle topped with rich, caramelised Biscoff crumble.</div>
                             </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Biscoff Moffle', 10)"><i class="fas fa-plus"></i> Add</div>
                         </div>
                     </div>
 
@@ -487,6 +861,7 @@
                                 <div class="item-price">RM 8.00</div>
                                 <div class="item-desc">Freshly baked moffle drizzled with smooth chocolate sauce.</div>
                             </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Chocolate Moffle', 8)"><i class="fas fa-plus"></i> Add</div>
                         </div>
                     </div>
 
@@ -499,6 +874,7 @@
                                 <div class="item-price">RM 10.00</div>
                                 <div class="item-desc">Smooth, earthy matcha blended with creamy milk.</div>
                             </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Matcha Latte', 10)"><i class="fas fa-plus"></i> Add</div>
                         </div>
                     </div>
 
@@ -510,6 +886,7 @@
                                 <div class="item-price">RM 12.00</div>
                                 <div class="item-desc">A refreshing mix of vibrant strawberry and premium matcha.</div>
                             </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Strawberry Matcha', 12)"><i class="fas fa-plus"></i> Add</div>
                         </div>
                     </div>
 
@@ -521,6 +898,7 @@
                                 <div class="item-price">RM 13.00</div>
                                 <div class="item-desc">Creamy taro paired with aromatic matcha.</div>
                             </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Taro Matcha', 13)"><i class="fas fa-plus"></i> Add</div>
                         </div>
                     </div>
 
@@ -532,6 +910,7 @@
                                 <div class="item-price">RM 13.00</div>
                                 <div class="item-desc">Where matcha meets chocolate. Rich cocoa undertones.</div>
                             </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Matcho', 13)"><i class="fas fa-plus"></i> Add</div>
                         </div>
                     </div>
 
@@ -543,6 +922,7 @@
                                 <div class="item-price">RM 14.00</div>
                                 <div class="item-desc">Tropical mango sweetness balanced with earthy matcha.</div>
                             </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Mango Matcha', 14)"><i class="fas fa-plus"></i> Add</div>
                         </div>
                     </div>
 
@@ -554,6 +934,7 @@
                                 <div class="item-price">RM 14.00</div>
                                 <div class="item-desc">Juicy blueberry notes combined with smooth matcha.</div>
                             </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Blueberry Matcha', 14)"><i class="fas fa-plus"></i> Add</div>
                         </div>
                     </div>
 
@@ -568,9 +949,95 @@
                                 <div class="item-price">RM 8.00</div>
                                 <div class="item-desc">Available in Mango & Strawberry.</div>
                             </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Refresher Series', 8)"><i class="fas fa-plus"></i> Add</div>
                         </div>
                     </div>
 
+                </div>
+            </div>
+        </section>
+
+        <!-- === ORDER / CHECKOUT PAGE === -->
+        <section id="order" class="page">
+            <div class="menu-section">
+                <div class="section-header" style="font-size: 24px;">place your order</div>
+                
+                <div class="order-layout">
+                    <!-- LEFT: Order Summary -->
+                    <div class="order-summary-container">
+                        <h3 style="margin-bottom: 1.5rem;">Your Order</h3>
+                        <div id="cartList" class="summary-list">
+                            <!-- Items injected here -->
+                            <div class="empty-cart-msg">
+                                Your cart is empty.<br>
+                                <span style="font-size: 0.85rem;">Go to Menu to add items.</span>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-total">
+                            <span>Total:</span>
+                            <span id="cartTotal">RM 0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Customer Details Form -->
+                    <div>
+                        <h3 style="margin-bottom: 1.5rem;">Customer Details</h3>
+                        
+                        <form id="orderForm">
+                            <div class="form-group"><input type="text" id="customerName" class="form-input" placeholder="Name *" required></div>
+                            <div class="form-group"><input type="tel" id="customerPhone" class="form-input" placeholder="Phone Number *" required></div>
+                                
+                            <!-- UPDATED: Order Method Toggle (Tabs) -->
+                            <div class="delivery-choice-container">
+                                <div class="radio-option">
+                                    <input type="radio" name="orderMethod" id="methodPickup" value="Pickup" checked onclick="toggleDeliveryOptions('pickup')">
+                                    <label for="methodPickup">Pick Up</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="orderMethod" id="methodDelivery" value="Delivery" onclick="toggleDeliveryOptions('delivery')">
+                                    <label for="methodDelivery">Delivery</label>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Location/Address Area -->
+                            <div id="deliveryOptionsContainer" class="delivery-options">
+                                <!-- Delivery Content -->
+                                <div id="deliveryInputs" style="display: none;">
+                                    <div class="form-group">
+                                        <input type="text" id="addressInput" class="form-input" placeholder="Delivery Address *">
+                                        <button type="button" class="location-btn" onclick="getCurrentLocation()">
+                                            <i class="fas fa-map-marker-alt"></i> Use My Location
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Pickup Content -->
+                                <div id="pickupInputs" class="pickup-map-container">
+                                    <div class="pickup-text">
+                                        <i class="fas fa-store"></i> Pick Up At Store
+                                    </div>
+                                    <div style="font-size: 0.9rem; color: #555; margin-bottom: 1rem;">Zeta Fasa 1 , UiTM Cawangan Perak Kampus Tapah</div>
+                                    <div class="map-buttons">
+                                        <a href="https://www.google.com/maps/search/?api=1&query=UiTM+Cawangan+Perak+Kampus+Tapah" target="_blank" class="map-btn btn-google">
+                                            <i class="fab fa-google"></i> Maps
+                                        </a>
+                                        <a href="https://waze.com/ul?ll=4.184523,101.152837&navigate=yes" target="_blank" class="map-btn btn-waze">
+                                            <i class="fas fa-location-arrow"></i> Waze
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <textarea id="orderDetails" class="form-input" rows="4" placeholder="Additional Order Instructions (Optional)"></textarea>
+                            </div>
+                            
+                            <button type="button" class="submit-btn" id="finalSubmitBtn" onclick="validateAndConfirmOrder()" disabled>
+                                <i class="fab fa-whatsapp wa-icon"></i> Send Order to WhatsApp
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
@@ -579,17 +1046,22 @@
         <section id="about" class="page">
             <div class="menu-section">
                 <div class="section-header" style="font-size: 24px;">about mory</div>
-                <p style="max-width: 600px; margin: 0 auto 3rem auto; color: var(--text-muted); line-height: 1.7;">
-                    Mory is a modern matcha brand that blends tradition with lifestyle. We craft rich, vibrant matcha made to energize, calm, and elevate every sip. Pure, versatile, and rooted in mindful living.
-                </p>
-
-                <!-- Info Grid -->
                 <div class="info-grid">
                     <div class="info-box">
                         <h3>Our Location</h3>
                         <div class="info-item"><i class="fas fa-map-marker-alt"></i> Zeta Fasa 1 , UiTM Cawangan Perak Kampus Tapah</div>
-                        <div style="margin-top:1rem; width:100%; height:150px; background:#eee; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#999;">
-                            <i class="fas fa-map"></i> Map Placeholder
+                        
+                        <!-- Embedded Google Map -->
+                        <div class="map-embed">
+                            <!-- FIXED MAP EMBED URL -->
+                            <iframe 
+                                width="100%" 
+                                height="100%" 
+                                frameborder="0" 
+                                style="border:0" 
+                                src="https://maps.google.com/maps?q=UiTM+Cawangan+Perak+Kampus+Tapah&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+                                allowfullscreen>
+                            </iframe>
                         </div>
                     </div>
                     <div class="info-box">
@@ -598,45 +1070,15 @@
                         <div class="info-item" style="margin-left: 35px; font-weight:600; color:var(--accent-color)">6:00 PM - 11:00 PM</div>
                         <div class="info-item" style="margin-top:1rem;"><i class="fas fa-phone"></i> +60 12-345 6789</div>
                         <div class="info-item"><i class="fas fa-envelope"></i> hello@mory-matcha.com</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- === CONTACT PAGE === -->
-        <section id="contact" class="page">
-            <div class="menu-section">
-                <div class="section-header" style="font-size: 24px;">contact us</div>
-                
-                <div class="info-grid">
-                    <!-- Form -->
-                    <div>
-                        <h3 style="margin-bottom:1.5rem">Send a Message</h3>
-                        <form onsubmit="event.preventDefault(); alert('Message sent!');">
-                            <div class="form-group"><input type="text" class="form-input" placeholder="Name" required></div>
-                            <div class="form-group"><input type="email" class="form-input" placeholder="Email" required></div>
-                            <div class="form-group"><input type="text" class="form-input" placeholder="Subject" required></div>
-                            <div class="form-group"><textarea class="form-input" rows="4" placeholder="Message" required></textarea></div>
-                            <button type="submit" class="submit-btn">Send Message</button>
-                        </form>
-                    </div>
-
-                    <!-- Details -->
-                    <div>
-                        <h3 style="margin-bottom:1.5rem">Get in Touch</h3>
-                        <div class="info-item" style="font-size:1.1rem; margin-bottom:2rem">
-                            Have questions about our catering or wholesale options?
-                        </div>
-                        <div class="info-item"><i class="fas fa-map-marker-alt"></i> Zeta Fasa 1, UiTM Tapah</div>
-                        <div class="info-item"><i class="fas fa-clock"></i> Daily: 6:00 PM - 11:00 PM</div>
-                        <div class="info-item"><i class="fas fa-phone"></i> +60 12-345 6789</div>
-                        <div class="info-item"><i class="fas fa-envelope"></i> hello@mory-matcha.com</div>
-
-                        <h3 style="margin-top:2rem; margin-bottom:1rem">Follow Us</h3>
-                        <div class="social-links">
-                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
-                            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        
+                        <h3 style="margin-top:2rem; margin-bottom: 1rem;">Get Directions</h3>
+                        <div class="map-buttons" style="justify-content: flex-start;">
+                            <a href="https://www.google.com/maps/search/?api=1&query=UiTM+Cawangan+Perak+Kampus+Tapah" target="_blank" class="map-btn btn-google">
+                                <i class="fab fa-google"></i> Maps
+                            </a>
+                            <a href="https://waze.com/ul?ll=4.184523,101.152837&navigate=yes" target="_blank" class="map-btn btn-waze">
+                                <i class="fas fa-location-arrow"></i> Waze
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -646,8 +1088,24 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 MORY. All Rights Reserved.Led by DDNetwork.</p>
+    <p>
+        &copy; 2026 MORY. All Rights Reserved.
+        Led By <a href="https://www.ddnet.my" target="_blank" rel="noopener" class="dd-link">DDNetwork</a>
+    </p>
     </footer>
+
+     <style>
+.dd-link {
+    color: #007BFF; /* blue */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.dd-link:hover {
+    text-decoration: underline;
+}
+    </style>
+
 
     <script>
         // --- 1. Preloader ---
@@ -682,7 +1140,6 @@
         function toggleMobileMenu() {
             const menu = document.getElementById('mobileMenu');
             menu.classList.toggle('active');
-            // Change hamburger icon
             const icon = document.querySelector('.hamburger i');
             if(menu.classList.contains('active')) {
                 icon.classList.remove('fa-bars');
@@ -693,24 +1150,20 @@
             }
         }
 
-        // --- 4. IMPROVED Search Toggle ---
+        // --- 4. Search Toggle ---
         function toggleSearch() {
             const searchOverlay = document.getElementById('searchOverlay');
             const input = document.getElementById('searchInput');
             const isActive = searchOverlay.classList.contains('active');
 
             if (!isActive) {
-                // Open Search
                 searchOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Stop background scrolling
-                setTimeout(() => {
-                    input.focus();
-                }, 100); // Focus after transition starts
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => input.focus(), 300);
             } else {
-                // Close Search
                 searchOverlay.classList.remove('active');
-                document.body.style.overflow = 'auto'; // Restore scrolling
-                input.blur(); // Remove focus
+                document.body.style.overflow = 'auto';
+                input.blur();
             }
         }
 
@@ -723,6 +1176,373 @@
                 item.style.display = (category === 'all' || item.dataset.cat === category) ? 'block' : 'none';
             });
         }
+
+        // --- 6. Hero Slideshow ---
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        
+        function showSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === slideIndex) slide.classList.add('active');
+            });
+            slideIndex++;
+            if (slideIndex >= slides.length) slideIndex = 0;
+        }
+        
+        if(slides.length > 0) setInterval(showSlides, 5000);
+
+        const dotsContainer = document.getElementById('dotsContainer');
+        if(slides.length > 0 && dotsContainer) {
+            slides.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => { slideIndex = index; showSlideManual(index); });
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function showSlideManual(n) {
+            slides.forEach(s => s.classList.remove('active'));
+            slides[n].classList.add('active');
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach(d => d.classList.remove('active'));
+            dots[n].classList.add('active');
+            slideIndex = n + 1;
+        }
+
+        // --- 7. CART & QUANTITY LOGIC ---
+        
+        let cart = []; // Structure: [{name, price, qty}]
+        let pendingItem = null; 
+        let pendingDeleteItem = null;
+
+        // Trigger Add (Strict Button Click)
+        function initiateAdd(name, price) {
+            const existingItem = cart.find(item => item.name === name);
+
+            if (existingItem) {
+                pendingItem = name;
+                document.getElementById('confirmModal').classList.add('active');
+            } else {
+                addToCartInternal(name, price, 1);
+                showToast(`Added ${name}`);
+            }
+        }
+
+        // Handle Modal Confirmation (Add)
+        function confirmAdd(shouldAdd) {
+            document.getElementById('confirmModal').classList.remove('active');
+            
+            if (shouldAdd && pendingItem) {
+                const item = cart.find(i => i.name === pendingItem);
+                if (item) {
+                    item.qty++;
+                    updateCartUI();
+                    showToast(`Added another ${pendingItem}`);
+                }
+            }
+            pendingItem = null;
+        }
+
+        // Internal Add Function
+        function addToCartInternal(name, price, qty) {
+            cart.push({ name, price, qty });
+            updateCartUI();
+        }
+
+        // Update Cart Badge & Render
+        function updateCartUI() {
+            // Badge
+            const badge = document.getElementById('cartBadge');
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.innerText = count;
+            badge.classList.add('visible');
+
+            // If on Order page, re-render list
+            if(document.getElementById('order').classList.contains('active')) {
+                renderCart();
+            }
+        }
+
+        // Render Cart List with Controls
+        function renderCart() {
+            const cartList = document.getElementById('cartList');
+            const totalEl = document.getElementById('cartTotal');
+            const submitBtn = document.getElementById('finalSubmitBtn');
+            const emptyMsg = document.querySelector('.empty-cart-msg');
+
+            cartList.innerHTML = '';
+            let total = 0;
+
+            if(cart.length === 0) {
+                cartList.innerHTML = `
+                    <div class="empty-cart-msg">
+                        Your cart is empty.<br>
+                        <span style="font-size: 0.85rem;">Go to Menu to add items.</span>
+                    </div>`;
+                totalEl.innerText = 'RM 0.00';
+                submitBtn.disabled = true;
+                return;
+            }
+
+            // Generate Rows
+            cart.forEach((item) => {
+                total += (item.price * item.qty);
+                const div = document.createElement('div');
+                div.className = 'order-item-row';
+                div.innerHTML = `
+                    <div class="order-item-info">
+                        <span class="order-item-name">${item.name}</span>
+                        <span class="order-item-price">RM ${item.price.toFixed(2)}</span>
+                    </div>
+                    <div class="order-controls">
+                        <button class="qty-btn" onclick="changeQty('${item.name}', -1)">-</button>
+                        <span class="qty-num">${item.qty}</span>
+                        <button class="qty-btn" onclick="changeQty('${item.name}', 1)">+</button>
+                        <i class="fas fa-trash remove-btn" onclick="initiateDelete('${item.name}')"></i>
+                    </div>
+                `;
+                cartList.appendChild(div);
+            });
+
+            totalEl.innerText = `RM ${total.toFixed(2)}`;
+            submitBtn.disabled = false;
+        }
+
+        // Change Quantity (+ / -)
+        function changeQty(name, delta) {
+            const item = cart.find(i => i.name === name);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    // If qty drops to 0, show delete modal
+                    pendingDeleteItem = name;
+                    document.getElementById('deleteModal').classList.add('active');
+                    // Revert visually if cancelled in modal, handled in logic
+                } else {
+                    updateCartUI();
+                }
+            }
+        }
+
+        // Initiate Delete (Calls Modal)
+        function initiateDelete(name) {
+            pendingDeleteItem = name;
+            document.getElementById('deleteModal').classList.add('active');
+        }
+
+        // Handle Delete Confirmation
+        function confirmDelete(shouldDelete) {
+            document.getElementById('deleteModal').classList.remove('active');
+            
+            if (shouldDelete && pendingDeleteItem) {
+                cart = cart.filter(i => i.name !== pendingDeleteItem);
+                updateCartUI();
+                showToast("Item removed");
+            } else if (!shouldDelete && pendingDeleteItem) {
+                // If cancelled and qty was 0 (triggered by -1), revert qty to 1
+                const item = cart.find(i => i.name === pendingDeleteItem);
+                if(item) item.qty = 1;
+                updateCartUI();
+            }
+            pendingDeleteItem = null;
+        }
+
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.innerText = msg;
+            toast.style.position = 'fixed';
+            toast.style.bottom = '20px';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.background = 'var(--text-color)';
+            toast.style.color = 'white';
+            toast.style.padding = '10px 20px';
+            toast.style.borderRadius = '20px';
+            toast.style.fontSize = '0.9rem';
+            toast.style.zIndex = '9999';
+            toast.style.animation = 'slideFade 2s ease forwards';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes slideFade {
+                0% { opacity: 0; transform: translateY(20px); }
+                10% { opacity: 1; transform: translateY(0); }
+                90% { opacity: 1; transform: translateY(0); }
+                100% { opacity: 0; transform: translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // --- 8. ORDER PAGE LOGIC ---
+
+        // Toggle Delivery vs Pickup options
+        function toggleDeliveryOptions(type) {
+            const container = document.getElementById('deliveryOptionsContainer');
+            const deliveryDiv = document.getElementById('deliveryInputs');
+            const pickupDiv = document.getElementById('pickupInputs');
+            const addressInput = document.getElementById('addressInput');
+            const pickupRadios = document.getElementsByName('orderMethod');
+
+            // Ensure container is visible
+            container.style.display = 'block';
+
+            if (type === 'delivery') {
+                deliveryDiv.style.display = 'block';
+                pickupDiv.style.display = 'none';
+                addressInput.required = true;
+            } else {
+                // Pickup
+                deliveryDiv.style.display = 'none';
+                pickupDiv.style.display = 'block'; 
+                addressInput.required = false;
+            }
+        }
+
+        // Get Current Location (For Delivery)
+        function getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const lat = position.coords.latitude.toFixed(6);
+                    const lon = position.coords.longitude.toFixed(6);
+                    const addressInput = document.getElementById('addressInput');
+                    addressInput.value = `Lat: ${lat}, Lon: ${lon}`;
+                }, (error) => {
+                    alert("Unable to retrieve your location. Please type manually.");
+                    console.error(error);
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // --- 9. VALIDATION & FINAL CONFIRMATION ---
+
+        function validateAndConfirmOrder() {
+            // 1. Check if cart is empty
+            if(cart.length === 0) {
+                alert("Your cart is empty. Please add items from menu.");
+                return;
+            }
+
+            // 2. Validate Form
+            const name = document.getElementById('customerName').value;
+            const phone = document.getElementById('customerPhone').value;
+            const method = document.querySelector('input[name="orderMethod"]:checked').value;
+            const addressInput = document.getElementById('addressInput');
+            const details = document.getElementById('orderDetails').value;
+
+            if(!name || !phone) {
+                alert("Please fill in your Name and Phone Number.");
+                return;
+            }
+
+            // 3. Validate Address if Delivery
+            if (method === 'Delivery' && !addressInput.value) {
+                alert("Please enter a delivery address.");
+                return;
+            }
+
+            // 4. Prepare Summary Text for Modal
+            let summaryHTML = `<div class="modal-summary-row"><span>Name:</span><span>${name}</span></div>`;
+            summaryHTML += `<div class="modal-summary-row"><span>Phone:</span><span>${phone}</span></div>`;
+            summaryHTML += `<div class="modal-summary-row"><span>Type:</span><span>${method}</span></div>`;
+
+            if (method === 'Delivery') {
+                summaryHTML += `<div class="modal-summary-row"><span>Address:</span><span>${addressInput.value}</span></div>`;
+            } else {
+                summaryHTML += `<div class="modal-summary-row"><span>Address:</span><span>Zeta Fasa 1, UiTM Tapah (Pickup)</span></div>`;
+            }
+
+            summaryHTML += `<br><div style="margin-top:1rem; font-weight:600; color:#111;">ORDER:</div>`;
+            
+            cart.forEach(item => {
+                summaryHTML += `<div style="font-size: 0.85rem; margin-bottom: 0.3rem; display:flex; justify-content:space-between;">
+                    <span>x${item.qty} ${item.name}</span>
+                    <span>RM ${(item.price * item.qty).toFixed(2)}</span>
+                </div>`;
+            });
+
+            // Total
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            summaryHTML += `<div style="margin-top:1rem; padding-top:0.5rem; border-top:1px solid #eee; display:flex; justify-content:space-between; font-weight:700;">
+                <span>TOTAL</span>
+                <span>RM ${total.toFixed(2)}</span>
+            </div>`;
+
+            if(details) {
+                summaryHTML += `<div style="margin-top:1rem; font-size:0.85rem; color:#666; font-style:italic;">Notes: ${details}</div>`;
+            }
+
+            document.getElementById('finalSummaryContent').innerHTML = summaryHTML;
+
+            // Show Modal
+            document.getElementById('finalConfirmModal').classList.add('active');
+        }
+
+        // Finalize WhatsApp Send
+        function finalizeWhatsApp() {
+            const modal = document.getElementById('finalConfirmModal');
+            modal.classList.remove('active');
+
+            // Gather Data (already validated)
+            const name = document.getElementById('customerName').value;
+            const phone = document.getElementById('customerPhone').value;
+            const method = document.querySelector('input[name="orderMethod"]:checked').value;
+            const details = document.getElementById('orderDetails').value;
+            const addressVal = document.getElementById('addressInput').value;
+            
+            // Build Message
+            let message = `*NEW ORDER*\n\n`;
+            message += `Name: ${name}\n`;
+            message += `Phone: ${phone}\n`;
+            message += `Type: ${method}\n`;
+
+            if (method === 'Delivery') {
+                message += `Address: ${addressVal}\n`;
+            } else {
+                message += `Address: Zeta Fasa 1, UiTM Tapah (Pickup)\n`;
+            }
+
+            message += `\n*ORDER ITEMS*\n`;
+            cart.forEach(item => {
+                message += `- ${item.name} (x${item.qty}) - RM ${(item.price * item.qty).toFixed(2)}\n`;
+            });
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            message += `\n*TOTAL AMOUNT*\nRM ${total.toFixed(2)}`;
+
+            if(details) {
+                message += `\n\n*ADDITIONAL NOTES*\n${details}`;
+            }
+
+            // Open WA
+            const waNumber = "601169526811";
+            const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+            
+            window.open(url, '_blank');
+        }
+
+        // --- 10. Modal Utilities ---
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // --- 11. Order Page Initialization ---
+        const orderObserver = new MutationObserver((mutations) => {
+            if (document.getElementById('order').classList.contains('active')) {
+                renderCart();
+                // Force default state to Pickup (Map visible, Address hidden)
+                toggleDeliveryOptions('pickup'); 
+            }
+        });
+        orderObserver.observe(document.getElementById('order'), { attributes: true });
+
     </script>
 </body>
 </html>
