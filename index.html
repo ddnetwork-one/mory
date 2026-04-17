@@ -701,6 +701,34 @@
             pointer-events: none; /* Let the click pass to the parent container */
         }
 
+        /* Unavailable Badge Style */
+        .unavailable-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            z-index: 5;
+            text-transform: uppercase;
+        }
+
+        .card-unavailable {
+            opacity: 0.65;
+            filter: grayscale(40%);
+            pointer-events: none;
+        }
+        .card-unavailable .add-to-cart-btn {
+            background: #ccc;
+            border-color: #bbb;
+            color: #666;
+            cursor: not-allowed;
+        }
+
         /* --- FOOTER --- */
         footer {
             text-align: center; padding: 3rem; border-top: 1px solid var(--border-color);
@@ -873,22 +901,22 @@
             <section class="menu-section">
                 <div class="section-header">new & seasonal</div>
                 <div class="menu-grid">
-                    <!-- UPDATED PRICES HERE -->
+                    <!-- HOME PAGE ITEMS (Updated Prices) -->
                     <div class="card-wrapper">
-                        <div class="card-img-full"><img src="https://i.ibb.co/zHjDJB8F/Matcho.jpg" alt="Matcho"></div>
+                        <div class="card-img-full"><img src="https://i.ibb.co/QFM6c206/MATCHO.jpg" alt="Matcho"></div>
                         <div class="item-info">
                             <div class="item-title">Matcho</div>
-                            <div class="item-price">RM 15.00</div>
+                            <div class="item-price">RM 13.00</div>
                         </div>
-                        <div class="add-to-cart-btn" onclick="initiateAdd('Matcho', 15)"><i class="fas fa-plus"></i> Add</div>
+                        <div class="add-to-cart-btn" onclick="initiateAdd('Matcho', 13)"><i class="fas fa-plus"></i> Add</div>
                     </div>
                     <div class="card-wrapper">
-                        <div class="card-img-full"><img src="https://i.ibb.co/CKKSCYJ0/Matcha-Taro.jpg" alt="Taro Matcha"></div>
+                        <div class="card-img-full"><img src="https://i.ibb.co/CKM1KZjF/TARO-MATCHA.jpg" alt="Taro Matcha"></div>
                         <div class="item-info">
                             <div class="item-title">Taro Matcha</div>
-                            <div class="item-price">RM 15.00</div>
+                            <div class="item-price">RM 14.00</div>
                         </div>
-                        <div class="add-to-cart-btn" onclick="initiateAdd('Taro Matcha', 15)"><i class="fas fa-plus"></i> Add</div>
+                        <div class="add-to-cart-btn" onclick="initiateAdd('Taro Matcha', 14)"><i class="fas fa-plus"></i> Add</div>
                     </div>
                     <div class="card-wrapper">
                         <div class="card-img-full"><img src="https://i.ibb.co/N6YHfYxf/BISCOFF-MOFFLE.jpg" alt="Biscoff Moffle"></div>
@@ -899,12 +927,12 @@
                         <div class="add-to-cart-btn" onclick="initiateAdd('Biscoff Moffle', 10)"><i class="fas fa-plus"></i> Add</div>
                     </div>
                     <div class="card-wrapper">
-                        <div class="card-img-full"><img src="https://i.ibb.co/DHPnpMRz/Matcha-Latte.jpg" alt="Matcha Latte"></div>
+                        <div class="card-img-full"><img src="https://i.ibb.co/twT4yFxf/STRAWBERRY-MATCHA.jpg" alt="Strawberry Matcha"></div>
                         <div class="item-info">
-                            <div class="item-title">Matcha Latte</div>
-                            <div class="item-price">RM 12.00</div>
+                            <div class="item-title">Strawberry Matcha</div>
+                            <div class="item-price">RM 13.00</div>
                         </div>
-                        <div class="add-to-cart-btn" onclick="initiateAdd('Matcha Latte', 12)"><i class="fas fa-plus"></i> Add</div>
+                        <div class="add-to-cart-btn" onclick="initiateAdd('Strawberry Matcha', 13)"><i class="fas fa-plus"></i> Add</div>
                     </div>
                 </div>
             </section>
@@ -916,22 +944,174 @@
                 <div class="section-header" style="font-size: 24px; margin-bottom: 20px;">Menu</div>
                 <div class="category-nav">
                     <button class="cat-btn active" onclick="filterMenu('all', this)">all</button>
-                    <button class="cat-btn" onclick="filterMenu('moffle', this)">moffle series</button>
                     <button class="cat-btn" onclick="filterMenu('matcha', this)">matcha series</button>
                     <button class="cat-btn" onclick="filterMenu('refresher', this)">refresher series</button>
+                    <button class="cat-btn" onclick="filterMenu('chocolate', this)">chocolate series</button>
+                    <button class="cat-btn" onclick="filterMenu('moffle', this)">moffle series</button>
                 </div>
 
                 <div class="menu-grid">
-                    <!-- MOFFLE SERIES -->
+                    
+                    <!-- MATCHA SERIES (Updated 2026) -->
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/3mJJQnT9/CLASSIC-MATCHA.jpg" alt="Classic Matcha"></div>
+                            <div class="item-info">
+                                <div class="item-title">Classic Matcha</div>
+                                <div class="item-price">RM 10.00</div>
+                                <div class="item-desc">Premium matcha whisked to perfection.</div>
+                            </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Classic Matcha', 10)"><i class="fas fa-plus"></i> Add</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/twT4yFxf/STRAWBERRY-MATCHA.jpg" alt="Strawberry Matcha"></div>
+                            <div class="item-info">
+                                <div class="item-title">Strawberry Matcha</div>
+                                <div class="item-price">RM 13.00</div>
+                                <div class="item-desc">A refreshing mix of vibrant strawberry and premium matcha.</div>
+                            </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Strawberry Matcha', 13)"><i class="fas fa-plus"></i> Add</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/p6KFp6xm/BLUEBERRY-MATCHA.jpg" alt="Blueberry Matcha"></div>
+                            <div class="item-info">
+                                <div class="item-title">Blueberry Matcha</div>
+                                <div class="item-price">RM 13.00</div>
+                                <div class="item-desc">Juicy blueberry notes combined with smooth matcha.</div>
+                            </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Blueberry Matcha', 13)"><i class="fas fa-plus"></i> Add</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/Z11FPq18/MANGO-MATCHA.jpg" alt="Mango Matcha"></div>
+                            <div class="item-info">
+                                <div class="item-title">Mango Matcha</div>
+                                <div class="item-price">RM 13.00</div>
+                                <div class="item-desc">Tropical mango sweetness balanced with earthy matcha.</div>
+                            </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Mango Matcha', 13)"><i class="fas fa-plus"></i> Add</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/QFM6c206/MATCHO.jpg" alt="Matcho"></div>
+                            <div class="item-info">
+                                <div class="item-title">Matcho</div>
+                                <div class="item-price">RM 13.00</div>
+                                <div class="item-desc">Where matcha meets chocolate. Rich cocoa undertones.</div>
+                            </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Matcho', 13)"><i class="fas fa-plus"></i> Add</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/CKM1KZjF/TARO-MATCHA.jpg" alt="Taro Matcha"></div>
+                            <div class="item-info">
+                                <div class="item-title">Taro Matcha</div>
+                                <div class="item-price">RM 14.00</div>
+                                <div class="item-desc">Creamy taro paired with aromatic matcha.</div>
+                            </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Taro Matcha', 14)"><i class="fas fa-plus"></i> Add</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/S4Br52v4/BUTTERFLY-PEA-MATCHA.jpg" alt="Butterfly Pea Matcha"></div>
+                            <div class="item-info">
+                                <div class="item-title">Butterfly Pea Matcha</div>
+                                <div class="item-price">RM 13.00</div>
+                                <div class="item-desc">Stunning blue-purple hue with floral matcha notes.</div>
+                            </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Butterfly Pea Matcha', 13)"><i class="fas fa-plus"></i> Add</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="matcha">
+                        <div class="card-wrapper card-unavailable">
+                            <div class="card-img-full" style="position:relative;">
+                                <div class="unavailable-badge">Unavailable</div>
+                                <img src="https://i.ibb.co/bjhN0LBC/MATCHAMISU.jpg" alt="Matchamisu">
+                            </div>
+                            <div class="item-info">
+                                <div class="item-title">Matchamisu</div>
+                                <div class="item-price">RM 15.00</div>
+                                <div class="item-desc">Decadent matcha tiramisu dessert.</div>
+                            </div>
+                            <div class="add-to-cart-btn" disabled><i class="fas fa-ban"></i> Sold Out</div>
+                        </div>
+                    </div>
+
+                    <!-- REFRESHER SERIES (Split into individual items) -->
+                    <div class="grid-item" data-cat="refresher">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/JwLxMVyr/STRAWBERRY-REFRESHER.jpg" alt="Strawberry Refresher"></div>
+                            <div class="item-info">
+                                <div class="item-title">Strawberry Refresher</div>
+                                <div class="item-price">RM 8.00</div>
+                                <div class="item-desc">Cool and refreshing strawberry drink.</div>
+                            </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Strawberry Refresher', 8)"><i class="fas fa-plus"></i> Add</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="refresher">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/Z6NHJGjY/MANGO-REFRESHER.jpg" alt="Mango Refresher"></div>
+                            <div class="item-info">
+                                <div class="item-title">Mango Refresher</div>
+                                <div class="item-price">RM 8.00</div>
+                                <div class="item-desc">Tropical mango refresher for hot days.</div>
+                            </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Mango Refresher', 8)"><i class="fas fa-plus"></i> Add</div>
+                        </div>
+                    </div>
+
+                    <!-- CHOCOLATE SERIES (NEW) -->
+                    <div class="grid-item" data-cat="chocolate">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/4Zg3p3J5/MORY-SIGNATURE-CHOCOLATE.jpg" alt="Mory Signature Chocolate"></div>
+                            <div class="item-info">
+                                <div class="item-title">Mory Signature Chocolate</div>
+                                <div class="item-price">RM 10.00</div>
+                                <div class="item-desc">Rich and velvety signature chocolate blend.</div>
+                            </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Mory Signature Chocolate', 10)"><i class="fas fa-plus"></i> Add</div>
+                        </div>
+                    </div>
+
+                    <div class="grid-item" data-cat="chocolate">
+                        <div class="card-wrapper">
+                            <div class="card-img-full"><img src="https://i.ibb.co/HD8mZJkh/STRAWBERRY-CHOCOLATE.jpg" alt="Strawberry Chocolate"></div>
+                            <div class="item-info">
+                                <div class="item-title">Strawberry Chocolate</div>
+                                <div class="item-price">RM 12.00</div>
+                                <div class="item-desc">Sweet strawberries meets rich chocolate.</div>
+                            </div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Strawberry Chocolate', 12)"><i class="fas fa-plus"></i> Add</div>
+                        </div>
+                    </div>
+
+                    <!-- MOFFLE SERIES (Updated Prices) -->
                     <div class="grid-item" data-cat="moffle">
                         <div class="card-wrapper">
                             <div class="card-img-full"><img src="https://i.ibb.co/N2j6qT48/CLASSIC-MOFFLE.jpg" alt="Classic Moffle"></div>
                             <div class="item-info">
                                 <div class="item-title">Classic Moffle</div>
-                                <div class="item-price">RM 8.00</div>
+                                <div class="item-price">RM 10.00</div>
                                 <div class="item-desc">Crispy on the outside, fluffy on the inside.</div>
                             </div>
-                            <div class="add-to-cart-btn" onclick="initiateAdd('Classic Moffle', 8)"><i class="fas fa-plus"></i> Add</div>
+                            <div class="add-to-cart-btn" onclick="initiateAdd('Classic Moffle', 10)"><i class="fas fa-plus"></i> Add</div>
                         </div>
                     </div>
 
@@ -956,94 +1136,6 @@
                                 <div class="item-desc">Freshly baked moffle drizzled with smooth chocolate sauce.</div>
                             </div>
                             <div class="add-to-cart-btn" onclick="initiateAdd('Chocolate Moffle', 8)"><i class="fas fa-plus"></i> Add</div>
-                        </div>
-                    </div>
-
-                    <!-- MATCHA SERIES (UPDATED PRICES) -->
-                    <div class="grid-item" data-cat="matcha">
-                        <div class="card-wrapper">
-                            <div class="card-img-full"><img src="https://i.ibb.co/DHPnpMRz/Matcha-Latte.jpg" alt="Matcha Latte"></div>
-                            <div class="item-info">
-                                <div class="item-title">Matcha Latte</div>
-                                <div class="item-price">RM 12.00</div>
-                                <div class="item-desc">Smooth, earthy matcha blended with creamy milk.</div>
-                            </div>
-                            <div class="add-to-cart-btn" onclick="initiateAdd('Matcha Latte', 12)"><i class="fas fa-plus"></i> Add</div>
-                        </div>
-                    </div>
-
-                    <div class="grid-item" data-cat="matcha">
-                        <div class="card-wrapper">
-                            <div class="card-img-full"><img src="https://i.ibb.co/8DLhMzbV/STRAWBERRY-MATCHA.jpg" alt="Strawberry Matcha"></div>
-                            <div class="item-info">
-                                <div class="item-title">Strawberry Matcha</div>
-                                <div class="item-price">RM 14.00</div>
-                                <div class="item-desc">A refreshing mix of vibrant strawberry and premium matcha.</div>
-                            </div>
-                            <div class="add-to-cart-btn" onclick="initiateAdd('Strawberry Matcha', 14)"><i class="fas fa-plus"></i> Add</div>
-                        </div>
-                    </div>
-
-                    <div class="grid-item" data-cat="matcha">
-                        <div class="card-wrapper">
-                            <div class="card-img-full"><img src="https://i.ibb.co/CKKSCYJ0/Matcha-Taro.jpg" alt="Taro Matcha"></div>
-                            <div class="item-info">
-                                <div class="item-title">Taro Matcha</div>
-                                <div class="item-price">RM 15.00</div>
-                                <div class="item-desc">Creamy taro paired with aromatic matcha.</div>
-                            </div>
-                            <div class="add-to-cart-btn" onclick="initiateAdd('Taro Matcha', 15)"><i class="fas fa-plus"></i> Add</div>
-                        </div>
-                    </div>
-
-                    <div class="grid-item" data-cat="matcha">
-                        <div class="card-wrapper">
-                            <div class="card-img-full"><img src="https://i.ibb.co/zHjDJB8F/Matcho.jpg" alt="Matcho"></div>
-                            <div class="item-info">
-                                <div class="item-title">Matcho</div>
-                                <div class="item-price">RM 15.00</div>
-                                <div class="item-desc">Where matcha meets chocolate. Rich cocoa undertones.</div>
-                            </div>
-                            <div class="add-to-cart-btn" onclick="initiateAdd('Matcho', 15)"><i class="fas fa-plus"></i> Add</div>
-                        </div>
-                    </div>
-
-                    <div class="grid-item" data-cat="matcha">
-                        <div class="card-wrapper">
-                            <div class="card-img-full"><img src="https://i.ibb.co/b8Hg6sp/MANGO-MATCHA.jpg" alt="Mango Matcha"></div>
-                            <div class="item-info">
-                                <div class="item-title">Mango Matcha</div>
-                                <div class="item-price">RM 15.00</div>
-                                <div class="item-desc">Tropical mango sweetness balanced with earthy matcha.</div>
-                            </div>
-                            <div class="add-to-cart-btn" onclick="initiateAdd('Mango Matcha', 15)"><i class="fas fa-plus"></i> Add</div>
-                        </div>
-                    </div>
-
-                    <div class="grid-item" data-cat="matcha">
-                        <div class="card-wrapper">
-                            <div class="card-img-full"><img src="https://i.ibb.co/SDtWRm9f/BLUEBERRY-MATCHA.jpg" alt="Blueberry Matcha"></div>
-                            <div class="item-info">
-                                <div class="item-title">Blueberry Matcha</div>
-                                <div class="item-price">RM 15.00</div>
-                                <div class="item-desc">Juicy blueberry notes combined with smooth matcha.</div>
-                            </div>
-                            <div class="add-to-cart-btn" onclick="initiateAdd('Blueberry Matcha', 15)"><i class="fas fa-plus"></i> Add</div>
-                        </div>
-                    </div>
-
-                    <!-- REFRESHER SERIES (COMBINED) -->
-                    <div class="grid-item" data-cat="refresher">
-                        <div class="card-wrapper">
-                            <div class="card-img-full">
-                                <img src="https://i.ibb.co/m56Mrssy/PHOTO-2026-01-29-15-02-04.jpg" alt="Refresher Series">
-                            </div>
-                            <div class="item-info">
-                                <div class="item-title">Refresher Series</div>
-                                <div class="item-price">RM 8.00</div>
-                                <div class="item-desc">Available in Mango & Strawberry.</div>
-                            </div>
-                            <div class="add-to-cart-btn" onclick="initiateAdd('Refresher Series', 8)"><i class="fas fa-plus"></i> Add</div>
                         </div>
                     </div>
 
@@ -1338,6 +1430,7 @@
 
         // Trigger Add (Strict Button Click)
         function initiateAdd(name, price) {
+            // Check if unavailable (double check via class or just trust UI)
             const existingItem = cart.find(item => item.name === name);
 
             if (existingItem) {
@@ -1565,7 +1658,9 @@ async function detectLocation() {
                 `Your GPS signal seems weak (Accuracy: ${Math.round(accuracy)}m). ` +
                 `This might lead to an incorrect address. ` +
                 `Try moving near a window or outdoors. ` +
-                `\n\nContinue anyway?`
+                `
+
+Continue anyway?`
             );
             if (!confirmRetry) {
                 btn.disabled = false;
@@ -1691,27 +1786,42 @@ async function detectLocation() {
             const addressVal = document.getElementById('addressInput').value;
             
             // Build Message
-            let message = `*NEW ORDER*\n\n`;
-            message += `Name: ${name}\n`;
-            message += `Phone: ${phone}\n`;
-            message += `Type: ${method}\n`;
+            let message = `*NEW ORDER*
+
+`;
+            message += `Name: ${name}
+`;
+            message += `Phone: ${phone}
+`;
+            message += `Type: ${method}
+`;
 
             if (method === 'Delivery') {
-                message += `Address: ${addressVal}\n`;
+                message += `Address: ${addressVal}
+`;
             } else {
-                message += `Address: Zeta Fasa 1, UiTM Tapah (Pickup)\n`;
+                message += `Address: Zeta Fasa 1, UiTM Tapah (Pickup)
+`;
             }
 
-            message += `\n*ORDER ITEMS*\n`;
+            message += `
+*ORDER ITEMS*
+`;
             cart.forEach(item => {
-                message += `- ${item.name} (x${item.qty}) - RM ${(item.price * item.qty).toFixed(2)}\n`;
+                message += `- ${item.name} (x${item.qty}) - RM ${(item.price * item.qty).toFixed(2)}
+`;
             });
 
             const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            message += `\n*TOTAL AMOUNT*\nRM ${total.toFixed(2)}`;
+            message += `
+*TOTAL AMOUNT*
+RM ${total.toFixed(2)}`;
 
             if(details) {
-                message += `\n\n*ADDITIONAL NOTES*\n${details}`;
+                message += `
+
+*ADDITIONAL NOTES*
+ ${details}`;
             }
 
             // Open WA
